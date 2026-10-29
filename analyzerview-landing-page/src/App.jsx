@@ -1,3 +1,4 @@
+
 import Hero from './components/Hero'
 import Problem from './components/Problem'
 import ExecutionModel from './components/ExecutionModel'
@@ -11,7 +12,7 @@ import Footer from './components/Footer'
 
 export default function App() {
   return (
-    <main>
+    <main className="min-h-screen w-full min-w-0 overflow-x-clip">
       <Hero />
       <Problem />
       <ExecutionModel />
