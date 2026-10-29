@@ -146,11 +146,14 @@ export default function Problem() {
 
           <a
             href="#consult"
-            className="group mt-7 inline-flex min-h-[54px] w-full items-center justify-center gap-3 rounded-[15px] bg-[linear-gradient(105deg,#ff7417_0%,#ed6b78_48%,#347cf6_100%)] px-6 py-3.5 text-base font-extrabold text-white shadow-[0_10px_28px_rgba(119,85,232,.25)] transition duration-300 hover:-translate-y-[3px] hover:shadow-[0_16px_36px_rgba(119,85,232,.32)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-purple-300 sm:w-auto sm:px-8 sm:text-[17px]"
+            className="group mt-7 inline-flex min-h-[50px] w-full items-center justify-center gap-2 whitespace-nowrap rounded-[15px] bg-[linear-gradient(105deg,#ff7417_0%,#ed6b78_48%,#347cf6_100%)] px-3 py-3 text-[12px] font-extrabold text-white shadow-[0_10px_28px_rgba(119,85,232,.25)] transition duration-300 hover:-translate-y-[3px] hover:shadow-[0_16px_36px_rgba(119,85,232,.32)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-purple-300 sm:w-auto sm:gap-3 sm:px-8 sm:text-[17px]"
           >
-            Step into smarter market approach
+            <span className="whitespace-nowrap">
+              Step into smarter market approach
+            </span>
+
             <ArrowRight
-              size={20}
+              size={18}
               aria-hidden="true"
               className="shrink-0 transition-transform duration-300 group-hover:translate-x-1"
             />
