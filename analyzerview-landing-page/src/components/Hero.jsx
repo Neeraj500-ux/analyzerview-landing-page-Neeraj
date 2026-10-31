@@ -24,22 +24,22 @@ const tickerItems = [
 const badges = [
   {
     icon: FileText,
-    title: 'Research-Backed',
-    subtitle: 'Data-driven analysis',
+    title: 'Institutional-Grade',
+    subtitle: 'Research Intelligence',
     position: 'left-0 top-[9%] sm:left-0 sm:top-[20%]',
     color: 'orange',
   },
   {
     icon: Target,
-    title: 'Defined Levels',
-    subtitle: 'Entry & exit planning',
+    title: 'Risk-First',
+    subtitle: 'Decision Framework',
     position: 'right-0 top-[52%] sm:right-0 sm:top-[36%]',
     color: 'orange',
   },
   {
     icon: BrainCircuit,
-    title: 'Disciplined Strategy',
-    subtitle: 'Structured risk framework',
+    title: 'Systematic & Algo-Driven',
+    subtitle: 'Strategies',
     position: 'bottom-[4%] left-0 sm:bottom-[12%] sm:left-0',
     color: 'purple',
   },
