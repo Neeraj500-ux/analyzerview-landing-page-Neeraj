@@ -1,3 +1,4 @@
+```jsx
 import { useEffect, useState } from 'react'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
@@ -38,37 +39,39 @@ const badges = [
   },
   {
     icon: BrainCircuit,
-    title: 'Systematic & Algo-Driven',
-    subtitle: 'Strategies',
+    title: 'Transparent,',
+    subtitle: 'SEBI-Registered Research',
     position: 'bottom-[4%] left-0 sm:bottom-[12%] sm:left-0',
     color: 'purple',
   },
 ]
 
-const floatDelays = ['', '[animation-delay:-2s]', '[animation-delay:-1s]']
+const floatDelays = [
+  '',
+  '[animation-delay:-2s]',
+  '[animation-delay:-1s]',
+]
 
 const BADGE_BASE =
-  'pointer-events-auto absolute flex max-w-[56%] items-center gap-2 rounded-xl border border-slate-200/90 bg-white/95 p-2 shadow-[0_10px_28px_rgba(15,23,42,.16)] backdrop-blur-md sm:max-w-[240px] sm:gap-3 sm:rounded-2xl sm:p-3'
+  'pointer-events-auto absolute flex max-w-[56%] items-center gap-2 rounded-xl border border-slate-200/90 bg-white/95 p-2 shadow-[0_10px_28px_rgba(15,23,42,.16)] backdrop-blur-md sm:max-w-[260px] sm:gap-3 sm:rounded-2xl sm:p-3'
 
 const ICON_BASE =
   'grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-gradient-to-br text-white sm:h-11 sm:w-11 sm:rounded-xl'
 
-function ResearchBadge(props) {
-  const { icon: Icon, title, subtitle, position, color } = props
-
+function ResearchBadge({ icon: Icon, title, subtitle, position, color }) {
   const iconStyle =
     color === 'purple'
       ? 'from-[#8b5cf6] to-[#6544dc]'
       : 'from-[#ff8b35] to-[#ff650d]'
 
   return (
-    <div className={BADGE_BASE + ' ' + position}>
-      <span className={ICON_BASE + ' ' + iconStyle}>
-        <Icon size={19} strokeWidth={1.8} />
+    <div className={`${BADGE_BASE} ${position}`}>
+      <span className={`${ICON_BASE} ${iconStyle}`}>
+        <Icon size={19} strokeWidth={1.8} aria-hidden="true" />
       </span>
 
       <span className="min-w-0 text-left">
-        <strong className="block text-[11px] font-extrabold leading-tight text-slate-900 sm:text-xs">
+        <strong className="block text-[10px] font-extrabold leading-tight text-slate-900 sm:text-xs">
           {title}
         </strong>
 
@@ -97,9 +100,7 @@ export default function Hero() {
       AOS.refresh()
     }, 300)
 
-    return () => {
-      window.clearTimeout(timer)
-    }
+    return () => window.clearTimeout(timer)
   }, [])
 
   return (
@@ -119,8 +120,14 @@ export default function Hero() {
         }
 
         @keyframes hero-pulse {
-          0%, 100% { opacity: .55; transform: translate(-50%, -50%) scale(1); }
-          50% { opacity: .95; transform: translate(-50%, -50%) scale(1.06); }
+          0%, 100% {
+            opacity: .55;
+            transform: translate(-50%, -50%) scale(1);
+          }
+          50% {
+            opacity: .95;
+            transform: translate(-50%, -50%) scale(1.06);
+          }
         }
 
         .hero-marquee {
@@ -156,11 +163,10 @@ export default function Hero() {
         <div className="hero-marquee flex w-max group-hover:[animation-play-state:paused]">
           {[...tickerItems, ...tickerItems].map((item, index) => (
             <div
-              key={item + '-' + index}
+              key={`${item}-${index}`}
               className="inline-flex shrink-0 items-center gap-3 whitespace-nowrap px-3 py-3 text-[11px] font-extrabold text-white sm:gap-5 sm:px-4 sm:py-3.5 sm:text-[13px]"
             >
               <span>{item}</span>
-
               <span aria-hidden="true" className="text-lg text-white/80">
                 |
               </span>
@@ -198,7 +204,9 @@ export default function Hero() {
           className="mx-auto mt-5 max-w-[800px] text-[clamp(21px,5.5vw,28px)] font-extrabold leading-[1.3] tracking-[-0.035em] text-[#202b3d] sm:mt-6 sm:text-[clamp(23px,2.5vw,30px)]"
         >
           We Don&apos;t Chase the Market.
-          <span className="mt-1 block text-[#7755e8]">We Decode It.</span>
+          <span className="mt-1 block text-[#7755e8]">
+            We Decode It.
+          </span>
         </h2>
 
         {/* Description */}
@@ -223,7 +231,6 @@ export default function Hero() {
             className="group inline-flex min-h-[54px] w-full max-w-[390px] items-center justify-center gap-3 overflow-hidden rounded-[14px] bg-gradient-to-r from-[#ff7417] via-[#ed6b78] to-[#347cf6] px-4 py-3 text-center text-sm font-extrabold leading-snug text-white shadow-[0_10px_28px_rgba(119,85,232,.25)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_15px_35px_rgba(119,85,232,.32)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-purple-300 sm:min-h-[58px] sm:w-auto sm:max-w-none sm:px-8 sm:text-[17px]"
           >
             <span>Explore Our Research</span>
-
             <Send
               size={20}
               aria-hidden="true"
@@ -243,11 +250,12 @@ export default function Hero() {
             aria-hidden="true"
             className="mt-0.5 shrink-0 text-emerald-600 sm:mt-0"
           />
-
-          <span>Less noise. More analysis. A clearer research process.</span>
+          <span>
+            Less noise. More analysis. A clearer research process.
+          </span>
         </div>
 
-        {/* Portrait and floating badges */}
+        {/* Portrait and floating research badges */}
         <div className="relative mx-auto mt-9 w-full max-w-[680px] sm:mt-12 md:max-w-[760px]">
           {/* Glow behind portrait */}
           <div
@@ -262,7 +270,7 @@ export default function Hero() {
           />
 
           <div className="relative mx-auto flex min-h-[370px] w-full items-end justify-center sm:min-h-[470px] md:min-h-[510px]">
-            {/* Portrait arch */}
+            {/* Portrait */}
             <div className="relative z-[2] h-[360px] w-[68%] max-w-[330px] overflow-hidden rounded-t-full border-4 border-b-0 border-white bg-gradient-to-br from-[#efeaff] to-[#fff2e8] shadow-[0_20px_45px_rgba(15,23,42,.16)] sm:h-[470px] sm:w-1/2 sm:max-w-[350px] sm:border-[5px] md:h-[510px]">
               {!photoFailed ? (
                 <img
@@ -271,7 +279,7 @@ export default function Hero() {
                   onError={() => setPhotoFailed(true)}
                   className="block h-full w-full object-cover object-top"
                   loading="eager"
-                  fetchpriority="high"
+                  fetchPriority="high"
                   decoding="async"
                 />
               ) : (
@@ -285,14 +293,11 @@ export default function Hero() {
               )}
             </div>
 
-            {/* Floating badges: always above the portrait */}
+            {/* Floating badges */}
             {badges.map((badge, index) => (
               <div
-                key={badge.title}
-                className={
-                  'hero-badge-float pointer-events-none absolute inset-0 z-[5] ' +
-                  floatDelays[index]
-                }
+                key={badge.title + badge.subtitle}
+                className={`hero-badge-float pointer-events-none absolute inset-0 z-[5] ${floatDelays[index]}`}
               >
                 <ResearchBadge
                   icon={badge.icon}
@@ -317,3 +322,4 @@ export default function Hero() {
     </section>
   )
 }
+```
