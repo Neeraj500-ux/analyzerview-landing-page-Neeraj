@@ -245,7 +245,7 @@ export default function Hero() {
           </span>
           <span className="mt-2 block whitespace-nowrap sm:mt-3">
             <span className="inline-block -rotate-1 rounded-xl bg-gradient-to-r from-[#ff7417] to-[#f04b0b] px-3 py-0.5 text-white shadow-[0_8px_22px_rgba(240,75,11,.35)] sm:rounded-2xl sm:px-5 sm:py-1">
-              Research Analyst
+              Research Analyst.
             </span>
           </span>
         </h1>
