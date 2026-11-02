@@ -1,21 +1,21 @@
 import { useEffect, useRef, useState } from 'react'
 import {
-  ArrowLeft, ArrowRight, Check, CheckCircle2, Clock, Loader2, Lock, Mail, MapPin,
+  ArrowLeft, ArrowRight, Check, Clock, Loader2, Lock, Mail, MapPin,
   Pencil, Phone, Send, ShieldCheck, Target, TrendingUp, User,
 } from 'lucide-react'
 
 /* ---------------------------------------------------------------
-   Same logic as before:
-   - 4 steps, same validation, same field names
+   - 4 steps, same validation, same layout
+   - Q1 & Q2 now have 4 options each
+   - Q3 = trading capital range, Q4 = when to get started
    - POSTs to import.meta.env.VITE_FORM_ENDPOINT (or logs to console)
-   Styling uses only Tailwind classes + a small <style> block for animations.
 ---------------------------------------------------------------- */
 
 const Q = [
-  { key: 'experience', label: 'How long have you been active in the stock market?', options: ['New to markets', 'Under 1 year', '1-3 years', '3-5 years', '5+ years'] },
-  { key: 'segment', label: 'Which market segment are you mainly interested in?', options: ['Equity investing / delivery', 'Swing / positional equity', 'Futures & Options (F&O)', 'Index options', 'Learning / research only', 'Other'] },
-  { key: 'help', label: 'What would you most like help with?', options: ['Detailed research reports', 'Stock / market analysis', 'Structured research updates', 'Quantitative / algo-related research information', 'Still exploring'] },
-  { key: 'approach', label: 'Which approach best describes your current interest?', options: ['Long-term investing', 'Positional trading', 'Active F&O trading', 'Learning before deciding'] },
+  { key: 'experience', label: 'How long have you been active in the stock market?', options: ['New to Markets', 'Less than 1 Year', '1–3 Years', '3+ Years'] },
+  { key: 'segment', label: 'Which market segment are you mainly interested in?', options: ['Equity Investing (Delivery)', 'Swing / Positional Trading', 'Futures & Options (F&O)', 'Index Options / Learning & Research'] },
+  { key: 'capital', label: 'What is your current trading capital range?', options: ['Below ₹50 thousand', '₹1 lakh – ₹5 lakh', '₹5 lakh – ₹10 lakh', 'Above ₹10 lakh'] },
+  { key: 'start', label: 'When are you looking to get started?', options: ['Immediately', 'Within the next 7 days', 'Within the next 30 days', 'Just exploring my options'] },
 ]
 
 const STEPS = [
@@ -121,7 +121,6 @@ function Stepper({ step }) {
         <span className="rounded-full bg-[#eaf1ff] px-2.5 py-1 text-[#1b5cf0]">{Math.round(((step + 1) / 4) * 100)}%</span>
       </div>
       <div className="relative">
-        {/* track + fill */}
         <div className="absolute left-5 right-5 top-5 h-[3px] -translate-y-1/2 rounded-full bg-slate-200 sm:left-6 sm:right-6">
           <div className="h-full rounded-full bg-gradient-to-r from-[#1b5cf0] to-[#4f8bff] transition-all duration-500" style={{ width: `${(step / 3) * 100}%` }} />
         </div>
@@ -182,7 +181,7 @@ export default function LeadForm() {
   const [done, setDone] = useState(false)
   const [sending, setSending] = useState(false)
   const [errors, setErrors] = useState({})
-  const [d, setD] = useState({ name: '', mobile: '', email: '', city: '', experience: '', segment: '', help: '', approach: '', consent: false })
+  const [d, setD] = useState({ name: '', mobile: '', email: '', city: '', experience: '', segment: '', capital: '', start: '', consent: false })
   const card = useRef(null)
   const first = useRef(true)
 
@@ -210,7 +209,7 @@ export default function LeadForm() {
       if (d.city.trim().length < 2) e.city = 'Enter your city'
     }
     if (step === 1) ['experience', 'segment'].forEach((k) => !d[k] && (e[k] = true))
-    if (step === 2) ['help', 'approach'].forEach((k) => !d[k] && (e[k] = true))
+    if (step === 2) ['capital', 'start'].forEach((k) => !d[k] && (e[k] = true))
     if (step === 3 && !d.consent) e.consent = 'Please provide consent to continue'
     setErrors(e)
     return Object.keys(e).length === 0
@@ -332,8 +331,8 @@ export default function LeadForm() {
 
                   {step === 2 && (
                     <>
-                      <Choice q={Q[2]} value={d.help} onChange={set} error={errors.help} />
-                      <Choice q={Q[3]} value={d.approach} onChange={set} error={errors.approach} />
+                      <Choice q={Q[2]} value={d.capital} onChange={set} error={errors.capital} />
+                      <Choice q={Q[3]} value={d.start} onChange={set} error={errors.start} />
                     </>
                   )}
 
@@ -351,8 +350,8 @@ export default function LeadForm() {
                         <Row label="Segment" value={d.segment} />
                       </ReviewBlock>
                       <ReviewBlock title="Needs" onEdit={() => setStep(2)}>
-                        <Row label="Help with" value={d.help} />
-                        <Row label="Approach" value={d.approach} />
+                        <Row label="Capital" value={d.capital} />
+                        <Row label="Start" value={d.start} />
                       </ReviewBlock>
 
                       <label className={`group mt-2 flex cursor-pointer items-start gap-3 rounded-2xl border-2 p-4 text-sm font-medium leading-relaxed text-slate-700 transition focus-within:ring-4 focus-within:ring-[#1b5cf0]/20 ${errors.consent ? 'shake border-red-400 bg-red-50/50' : d.consent ? 'border-[#1b5cf0] bg-[#f3f7ff]' : 'border-slate-200 hover:border-[#1b5cf0]/50'}`}>

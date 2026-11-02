@@ -503,7 +503,7 @@ export default function WhyResearch() {
                   href="#research-methodology"
                   className="btn-shine group relative inline-flex min-h-[52px] w-full items-center justify-center gap-2 overflow-hidden rounded-[14px] bg-gradient-to-r from-indigo-600 to-violet-600 px-5 py-3 text-[13px] font-bold text-white shadow-[0_10px_28px_rgba(99,85,220,0.28)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_34px_rgba(99,85,220,0.36)] active:scale-[0.98] sm:text-sm"
                 >
-                  <span className="relative z-10">Explore Our Research</span>
+                  <span className="relative z-10">Explore our research services</span>
                   <ArrowRight
                     size={16}
                     className="relative z-10 transition-transform group-hover:translate-x-1"

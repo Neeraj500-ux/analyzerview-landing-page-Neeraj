@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import {
-  BadgeCheck, Clock, Users, Quote, LineChart, CandlestickChart,
-  ShieldCheck, GraduationCap, Sparkles, TrendingUp,
+  BadgeCheck, Clock, Users, Quote, Sparkles, TrendingUp,
   Briefcase, Target, Eye,
 } from 'lucide-react'
 
@@ -43,13 +42,6 @@ const founderTabs = [
       'His vision is to make market research more structured, transparent, and accessible by combining analytical insights with systematic strategies and a disciplined approach to risk.',
     ],
   },
-]
-
-const pillars = [
-  { icon: LineChart, title: 'Fundamental analysis', text: 'Business quality and financial strength' },
-  { icon: CandlestickChart, title: 'Technical analysis', text: 'Price action and market trends' },
-  { icon: ShieldCheck, title: 'Risk management', text: 'Defined risk-to-reward on every view' },
-  { icon: GraduationCap, title: 'Investor education', text: 'Understanding before action' },
 ]
 
 const headline = [
@@ -150,7 +142,7 @@ function useCountUp(end, active, duration = 1800) {
 /* ------------------------------------------------------------------ */
 
 /** scroll-reveal wrapper (directional, staggered via `delay` in ms) */
-function Reveal({ children, delay = 0, from = 'up', className = '' }) {
+function Reveal({ children, delay = 0, from = 'up', className = '', style }) {
   const [ref, inView] = useInView(0.15)
   const hidden = {
     up: 'translate-y-8',
@@ -163,7 +155,7 @@ function Reveal({ children, delay = 0, from = 'up', className = '' }) {
   return (
     <div
       ref={ref}
-      style={{ transitionDelay: `${delay}ms` }}
+      style={{ transitionDelay: `${delay}ms`, ...style }}
       className={`transition-all duration-[900ms] ease-[cubic-bezier(.22,1,.36,1)] motion-reduce:transition-none ${
         inView ? 'translate-x-0 translate-y-0 scale-100 opacity-100' : `${hidden} opacity-0`
       } ${className}`}
@@ -388,7 +380,7 @@ function FounderCard() {
             </div>
             <div className="absolute right-3 top-3 flex items-center gap-1.5 rounded-full border border-[#ff994d]/40 bg-[#fff3e8]/95 px-3 py-1.5 text-[11px] font-bold text-[#c2570c] shadow-sm backdrop-blur-md sm:right-5 sm:top-5 sm:text-[12px]">
               <TrendingUp size={13} />
-              Research-led
+              Research-head
             </div>
 
             <span className="fv-pop absolute bottom-4 right-4 grid h-9 w-9 place-items-center rounded-full bg-brand text-white shadow-lg ring-4 ring-white sm:right-6">
@@ -517,7 +509,7 @@ export default function About() {
   const [headRef, headIn] = useInView(0.3)
 
   return (
-    <section className="relative isolate overflow-hidden bg-white px-4 py-16 sm:px-6 sm:py-28">
+    <section className="relative isolate overflow-x-clip bg-white px-4 py-16 sm:px-6 sm:py-28">
       {/* ---------- scoped keyframes ---------- */}
       <style>{`
         @keyframes av-float-a { 0%,100% { transform: translate3d(0,0,0) scale(1) } 50% { transform: translate3d(60px,40px,0) scale(1.15) } }
@@ -606,10 +598,10 @@ export default function About() {
         </div>
 
         {/* ---------- main grid ---------- */}
-        <div className="mt-14 grid gap-8 lg:grid-cols-[1.2fr_1fr] lg:items-start">
+        <div className="mt-14 grid gap-8 lg:grid-cols-[1.2fr_1fr] lg:items-stretch">
           {/* ===== left: about ===== */}
-          <Reveal from="left" className="min-w-0">
-            <div className="relative rounded-3xl border border-blue-100 bg-white/80 p-6 shadow-[0_30px_80px_-30px_rgba(15,40,110,.25)] backdrop-blur-md sm:p-10">
+          <Reveal from="left" className="min-w-0 lg:h-full">
+            <div className="relative flex flex-col rounded-3xl lg:h-full border border-blue-100 bg-white/80 p-6 shadow-[0_30px_80px_-30px_rgba(15,40,110,.25)] backdrop-blur-md sm:p-10">
               {/* growing accent line */}
               <span className="av-line absolute bottom-10 left-0 top-10 w-[3px] rounded-full bg-gradient-to-b from-brand via-[#6fa3f7] to-[#ff994d]" />
 
@@ -618,38 +610,37 @@ export default function About() {
                 About Analyzerview Market Research
               </h3>
 
-              <div className="mt-6 space-y-5 text-[15.5px] font-medium leading-[1.85] text-slate-700">
+              <div className="mt-6 flex flex-col gap-4 text-[15px] lg:flex-1 font-medium leading-[1.85] text-slate-700 sm:text-[15.5px]">
                 {paras.map((p, i) => (
-                  <Reveal key={i} delay={i * 110} from="up">
-                    <p>{p}</p>
-                  </Reveal>
-                ))}
-                <Reveal delay={480}>
-                  <p className="rounded-2xl bg-gradient-to-r from-brand/10 to-transparent p-4 font-bold text-navy-900">
-                    Our commitment is to make market research more structured, investment decisions more informed, and risk awareness an integral part of every market strategy.
-                  </p>
-                </Reveal>
-              </div>
-
-              {/* pillars */}
-              <div className="mt-8 grid gap-3 sm:grid-cols-2">
-                {pillars.map(({ icon: Icon, title, text }, i) => (
-                  <Reveal key={title} delay={i * 90} from="zoom">
-                    <div className="group relative h-full overflow-hidden rounded-2xl border border-blue-100 bg-[#f7faff] p-4 transition-all duration-500 hover:-translate-y-1 hover:border-brand/40 hover:bg-white hover:shadow-[0_18px_40px_-18px_rgba(31,79,255,.45)]">
-                      <div className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-brand to-[#6fa3f7] text-white shadow-md transition-transform duration-500 group-hover:rotate-[-8deg] group-hover:scale-110">
-                        <Icon size={20} />
-                      </div>
-                      <div className="mt-3 text-[15px] font-extrabold text-navy-900">{title}</div>
-                      <div className="mt-0.5 text-[13px] font-medium text-slate-500">{text}</div>
+                  <Reveal
+                    key={i}
+                    delay={i * 110}
+                    from="up"
+                    className="sticky shrink-0 lg:static lg:flex-1"
+                    style={{ top: `${16 + i * 14}px`, zIndex: i + 1 }}
+                  >
+                    <div className="flex items-center rounded-2xl border border-blue-100 bg-[#f7faff] p-5 shadow-[0_-10px_30px_-14px_rgba(15,40,110,.35)] transition-colors duration-500 hover:border-brand/40 hover:bg-white sm:p-6 lg:h-full lg:shadow-none">
+                      <p className="min-w-0 break-words">{p}</p>
                     </div>
                   </Reveal>
                 ))}
+                <Reveal
+                  delay={480}
+                  className="sticky shrink-0 lg:static lg:flex-1"
+                  style={{ top: `${16 + paras.length * 14}px`, zIndex: paras.length + 1 }}
+                >
+                  <div className="flex items-center rounded-2xl border border-blue-100 bg-gradient-to-r from-[#e6eeff] to-[#fff0e2] p-5 shadow-[0_-10px_30px_-14px_rgba(15,40,110,.35)] sm:p-6 lg:h-full lg:shadow-none">
+                    <p className="min-w-0 break-words font-bold text-navy-900">
+                      Our commitment is to make market research more structured, investment decisions more informed, and risk awareness an integral part of every market strategy.
+                    </p>
+                  </div>
+                </Reveal>
               </div>
             </div>
           </Reveal>
 
           {/* ===== right: founder (redesigned) ===== */}
-          <Reveal from="right" delay={150} className="min-w-0 lg:sticky lg:top-24">
+          <Reveal from="right" delay={150} className="min-w-0">
             <FounderCard />
           </Reveal>
         </div>

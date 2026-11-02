@@ -844,7 +844,7 @@ export default function ExecutionModel() {
                 href="#consult"
                 className="ex-button mt-7 inline-flex items-center justify-center gap-3 rounded-xl bg-gradient-to-r from-[#2048b9] via-[#3266e5] to-[#7256e8] px-5 py-3.5 text-sm font-extrabold text-white shadow-[0_10px_25px_rgba(49,92,205,.22)] sm:text-base"
               >
-                Explore Our Research Plans
+                Explore our research services Plans
                 <MoveUpRight size={17} />
               </a>
             </div>

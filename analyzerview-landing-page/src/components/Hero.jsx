@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
@@ -11,7 +10,7 @@ import {
   Cpu,
 } from 'lucide-react'
 
-const PHOTO = '/images/Neeraj2.png'
+const PHOTO = '/images/Neeraj4.png'
 
 const tickerItems = [
   'Research-Backed Market Insights',
@@ -289,7 +288,7 @@ export default function Hero() {
             href="#consult"
             className="group inline-flex min-h-[60px] w-full max-w-[420px] items-center justify-center gap-3 rounded-[16px] bg-gradient-to-r from-[#ff7417] via-[#ed6b78] to-[#347cf6] px-5 py-3.5 text-center text-[18px] font-extrabold leading-snug text-white shadow-[0_10px_28px_rgba(119,85,232,.25)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_15px_35px_rgba(119,85,232,.32)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-purple-300 sm:min-h-[66px] sm:w-auto sm:max-w-none sm:px-10 sm:text-[21px]"
           >
-            <span>Explore Our Research</span>
+            <span>Explore our research services</span>
             <Send
               size={24}
               aria-hidden="true"
@@ -390,4 +389,3 @@ export default function Hero() {
     </section>
   )
 }
-
