@@ -10,7 +10,7 @@ import FinalCTA from './components/FinalCTA'
 import Footer from './components/Footer'
 import { Send } from 'lucide-react'
 
-const WHATSAPP_NUMBER = '919382093168' // country code + number, digits only
+const WHATSAPP_NUMBER = '919147743168' // country code + number, digits only
 const WHATSAPP_MESSAGE =
   'Hi, I would like to know more about your SEBI-registered research.'
 const WHATSAPP_URL =
