@@ -1,5 +1,6 @@
-
 import { REG_NO } from '../data/content'
+
+const BSE_ENLISTMENT_NO = '7041' // or export this from ../data/content next to REG_NO
 
 const links = [
   ['Terms & Conditions', '#terms'],
@@ -26,12 +27,13 @@ export default function Footer() {
                 src="/images/Neeraj3.png"
                 alt="AnalyzerView Market Research"
                 className="block h-auto w-[240px] max-w-full object-contain object-left sm:w-[270px]"
-                loading="lazy"
               />
             </a>
 
             <p className="mt-4 max-w-[380px] text-sm font-medium leading-relaxed">
               SEBI Registered Research Analyst | Registration No. {REG_NO}
+              <br />
+              BSE Enlistment No. {BSE_ENLISTMENT_NO}
             </p>
           </div>
 
