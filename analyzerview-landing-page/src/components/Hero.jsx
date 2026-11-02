@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
@@ -74,7 +75,11 @@ function ResearchBadge(props) {
   const styles = COLOR_STYLES[props.color] || COLOR_STYLES.orange
 
   return (
-    <div className={BADGE_BASE + ' ' + styles.card + ' ' + props.position}>
+    <div
+      className={
+        BADGE_BASE + ' ' + styles.card + ' ' + props.position
+      }
+    >
       <span className={ICON_BASE + ' ' + styles.icon}>
         <Icon size={19} strokeWidth={1.8} aria-hidden="true" />
       </span>
@@ -107,7 +112,9 @@ export default function Hero() {
       once: true,
       offset: 20,
       disable: function () {
-        return window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        return window.matchMedia(
+          '(prefers-reduced-motion: reduce)'
+        ).matches
       },
     })
 
@@ -204,7 +211,7 @@ export default function Hero() {
                 className="inline-flex shrink-0 items-center gap-3 whitespace-nowrap px-3 py-3 text-[11px] font-extrabold text-white sm:gap-5 sm:px-4 sm:py-3.5 sm:text-[13px]"
               >
                 <span>{item}</span>
-                <span aria-hidden="true" className="text-lg text-white/80">
+                <span className="text-lg text-white/80" aria-hidden="true">
                   |
                 </span>
               </div>
@@ -215,7 +222,6 @@ export default function Hero() {
 
       {/* Hero content */}
       <div className="relative z-[1] mx-auto w-full max-w-[1180px] px-4 pb-8 pt-8 text-center sm:px-6 sm:pb-10 sm:pt-10 md:pt-12">
-        {/* Research label */}
         <div
           data-aos="fade-down"
           className="mx-auto mb-5 inline-flex max-w-full items-center justify-center gap-2 rounded-full border border-orange-200 bg-white/90 px-3 py-2 text-[11px] font-extrabold uppercase tracking-wide text-[#bd4c0b] shadow-sm sm:mb-6 sm:gap-2.5 sm:px-4 sm:text-xs"
@@ -237,12 +243,14 @@ export default function Hero() {
             </span>{' '}
             Trading
           </span>
+
           <span className="block whitespace-nowrap">
             Journey With{' '}
             <span className="hero-shine-text bg-gradient-to-r from-[#2878ff] via-[#7755e8] to-[#2878ff] bg-clip-text text-transparent">
               SEBI-Registered
             </span>
           </span>
+
           <span className="mt-2 block whitespace-nowrap sm:mt-3">
             <span className="inline-block -rotate-1 rounded-xl bg-gradient-to-r from-[#ff7417] to-[#f04b0b] px-3 py-0.5 text-white shadow-[0_8px_22px_rgba(240,75,11,.35)] sm:rounded-2xl sm:px-5 sm:py-1">
               Research Analyst.
@@ -271,7 +279,7 @@ export default function Hero() {
           risk-to-reward framework.
         </p>
 
-        {/* CTA button */}
+        {/* Main CTA */}
         <div
           data-aos="fade-up"
           data-aos-delay="320"
@@ -279,7 +287,7 @@ export default function Hero() {
         >
           <a
             href="#consult"
-            className="group inline-flex min-h-[60px] w-full max-w-[420px] items-center justify-center gap-3 overflow-hidden rounded-[16px] bg-gradient-to-r from-[#ff7417] via-[#ed6b78] to-[#347cf6] px-5 py-3.5 text-center text-[18px] font-extrabold leading-snug text-white shadow-[0_10px_28px_rgba(119,85,232,.25)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_15px_35px_rgba(119,85,232,.32)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-purple-300 sm:min-h-[66px] sm:w-auto sm:max-w-none sm:px-10 sm:text-[21px]"
+            className="group inline-flex min-h-[60px] w-full max-w-[420px] items-center justify-center gap-3 rounded-[16px] bg-gradient-to-r from-[#ff7417] via-[#ed6b78] to-[#347cf6] px-5 py-3.5 text-center text-[18px] font-extrabold leading-snug text-white shadow-[0_10px_28px_rgba(119,85,232,.25)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_15px_35px_rgba(119,85,232,.32)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-purple-300 sm:min-h-[66px] sm:w-auto sm:max-w-none sm:px-10 sm:text-[21px]"
           >
             <span>Explore Our Research</span>
             <Send
@@ -306,20 +314,17 @@ export default function Hero() {
 
         {/* Portrait and research badges */}
         <div className="relative mx-auto mt-9 w-full max-w-[680px] sm:mt-12 md:max-w-[760px]">
-          {/* Glow */}
           <div
             aria-hidden="true"
             className="hero-glow pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[320px] w-[320px] rounded-full bg-[radial-gradient(circle,rgba(119,85,232,.28),rgba(255,116,23,.18)_55%,transparent_72%)] blur-2xl sm:h-[460px] sm:w-[460px]"
           />
 
-          {/* Decorative arch */}
           <div
             aria-hidden="true"
             className="pointer-events-none absolute left-1/2 top-[2%] h-[94%] w-[80%] max-w-[370px] -translate-x-1/2 rounded-t-full border-2 border-dashed border-[#7755e8]/25 sm:w-[54%] sm:max-w-[390px]"
           />
 
           <div className="relative mx-auto flex min-h-[370px] w-full items-end justify-center sm:min-h-[470px] md:min-h-[510px]">
-            {/* Portrait */}
             <div className="relative z-[2] h-[360px] w-[68%] max-w-[330px] overflow-hidden rounded-t-full border-4 border-b-0 border-white bg-gradient-to-br from-[#efeaff] to-[#fff2e8] shadow-[0_20px_45px_rgba(15,23,42,.16)] sm:h-[470px] sm:w-1/2 sm:max-w-[350px] sm:border-[5px] md:h-[510px]">
               {!photoFailed ? (
                 <img
@@ -330,7 +335,7 @@ export default function Hero() {
                   }}
                   className="block h-full w-full object-cover object-top"
                   loading="eager"
-                  fetchpriority="high"
+                  fetchPriority="high"
                   decoding="async"
                 />
               ) : (
@@ -344,7 +349,6 @@ export default function Hero() {
               )}
             </div>
 
-            {/* Three floating research badges */}
             {badges.map(function (badge, index) {
               let animationClass = ''
 
@@ -386,3 +390,4 @@ export default function Hero() {
     </section>
   )
 }
+
