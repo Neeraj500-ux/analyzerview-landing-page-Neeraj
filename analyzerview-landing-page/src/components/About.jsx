@@ -561,14 +561,15 @@ export default function About() {
       <div className="mx-auto max-w-[1180px]">
         {/* ---------- heading ---------- */}
         <div ref={headRef} className="text-center">
+          {/* Logo – same size as the FAQ section logo */}
           <Reveal from="down" className="flex justify-center">
-            <div className="av-bob flex min-h-[132px] min-w-[176px] items-center justify-center rounded-2xl border border-blue-100 bg-white px-5 py-4 shadow-[0_14px_42px_-12px_rgba(31,79,255,.32)] backdrop-blur sm:min-h-[150px] sm:min-w-[210px] sm:px-7 sm:py-5">
+            <div className="av-bob rounded-3xl border border-white bg-white px-5 py-3 shadow-[0_18px_40px_-14px_rgba(31,79,255,.32)] ring-1 ring-slate-100 sm:px-7 sm:py-4">
               <img
                 src="/images/Neeraj3.png"
-                alt="Analyzerview Market Research logo"
-                className="block h-24 w-36 max-w-full object-contain sm:h-28 sm:w-44"
-                width="176"
-                height="112"
+                alt="AnalyzerView.com – SEBI Research Analyst"
+                className="h-auto w-[240px] max-w-full sm:w-[340px]"
+                width="2048"
+                height="768"
                 loading="eager"
                 decoding="async"
               />
