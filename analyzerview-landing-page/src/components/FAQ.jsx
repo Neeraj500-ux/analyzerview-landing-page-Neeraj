@@ -1,4 +1,3 @@
-
 import { useEffect, useRef, useState } from 'react'
 import {
   ChevronDown,
@@ -60,7 +59,28 @@ function useInView() {
   return [ref, inView]
 }
 
+/* ---------- multiple-choice questions (shown as A / B / C / D options) ---------- */
+
+const experienceQuestion = {
+  choice: true,
+  q: 'How long have you been active in the stock market?',
+  a: `New to Markets
+Less than 1 Year
+1–3 Years
+3+ Years`,
+}
+
+const segmentQuestion = {
+  choice: true,
+  q: 'Which market segment are you mainly interested in?',
+  a: `Equity Investing (Delivery)
+Swing / Positional Trading
+Futures & Options (F&O)
+Index Options / Learning & Research`,
+}
+
 const capitalQuestion = {
+  choice: true,
   q: 'What is your current trading capital range?',
   a: `Below ₹50,000
 ₹1 lakh – ₹5 lakh
@@ -69,6 +89,7 @@ Above ₹10 lakh`,
 }
 
 const startQuestion = {
+  choice: true,
   q: 'When are you looking to get started?',
   a: `Immediately
 Within the next 7 days
@@ -82,8 +103,10 @@ export default function FAQ() {
 
   const originalFaqs = Array.isArray(faqs) ? faqs : []
 
-  // Replace the last two existing questions.
+  // Question 1 & 2 = experience + segment, last two = capital + start.
   const faqItems = [
+    experienceQuestion,
+    segmentQuestion,
     ...originalFaqs.slice(0, Math.max(0, originalFaqs.length - 2)),
     capitalQuestion,
     startQuestion,
@@ -174,11 +197,10 @@ export default function FAQ() {
               const questionId = `faq-question-${index}`
               const answerId = `faq-answer-${index}`
 
-              const isChoiceQuestion =
-                index >= faqItems.length - 2
+              const isChoiceQuestion = Boolean(item.choice)
 
               const options = isChoiceQuestion
-                ? item.a.split('\n')
+                ? item.a.split('\n').filter(Boolean)
                 : []
 
               return (
@@ -261,7 +283,7 @@ export default function FAQ() {
                                   <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-white text-xs font-bold text-[#7755e8] ring-1 ring-purple-100">
                                     {String.fromCharCode(65 + optionIndex)}
                                   </span>
-                                  <span>{option}</span>
+                                  <span className="min-w-0 break-words">{option}</span>
                                 </div>
                               ))}
                             </div>
