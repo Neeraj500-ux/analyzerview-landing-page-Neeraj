@@ -21,12 +21,12 @@ export default function Footer() {
             <a
               href="/"
               aria-label="AnalyzerView home"
-              className="inline-block rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+              className="inline-block rounded-xl bg-white px-4 py-3 shadow-lg shadow-black/30 ring-1 ring-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
             >
               <img
                 src="/images/Neeraj5.png"
                 alt="AnalyzerView Market Research"
-                className="block h-auto w-[240px] max-w-full object-contain object-left sm:w-[270px]"
+                className="block h-auto w-[200px] max-w-full object-contain object-left sm:w-[230px]"
               />
             </a>
 
