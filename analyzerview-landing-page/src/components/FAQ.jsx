@@ -59,58 +59,12 @@ function useInView() {
   return [ref, inView]
 }
 
-/* ---------- multiple-choice questions (shown as A / B / C / D options) ---------- */
-
-const experienceQuestion = {
-  choice: true,
-  q: 'How long have you been active in the stock market?',
-  a: `New to Markets
-Less than 1 Year
-1–3 Years
-3+ Years`,
-}
-
-const segmentQuestion = {
-  choice: true,
-  q: 'Which market segment are you mainly interested in?',
-  a: `Equity Investing (Delivery)
-Swing / Positional Trading
-Futures & Options (F&O)
-Index Options / Learning & Research`,
-}
-
-const capitalQuestion = {
-  choice: true,
-  q: 'What is your current trading capital range?',
-  a: `Below ₹50,000
-₹1 lakh – ₹5 lakh
-₹5 lakh – ₹10 lakh
-Above ₹10 lakh`,
-}
-
-const startQuestion = {
-  choice: true,
-  q: 'When are you looking to get started?',
-  a: `Immediately
-Within the next 7 days
-Within the next 30 days
-Just exploring my options`,
-}
-
 export default function FAQ() {
   const [openIndex, setOpenIndex] = useState(0)
   const [ref, inView] = useInView()
 
-  const originalFaqs = Array.isArray(faqs) ? faqs : []
-
-  // Question 1 & 2 = experience + segment, last two = capital + start.
-  const faqItems = [
-    experienceQuestion,
-    segmentQuestion,
-    ...originalFaqs.slice(0, Math.max(0, originalFaqs.length - 2)),
-    capitalQuestion,
-    startQuestion,
-  ]
+  // Only the real FAQs from src/data/content.js (lead questions removed).
+  const faqItems = Array.isArray(faqs) ? faqs : []
 
   const toggleFAQ = (index) => {
     setOpenIndex((currentIndex) =>
@@ -197,12 +151,6 @@ export default function FAQ() {
               const questionId = `faq-question-${index}`
               const answerId = `faq-answer-${index}`
 
-              const isChoiceQuestion = Boolean(item.choice)
-
-              const options = isChoiceQuestion
-                ? item.a.split('\n').filter(Boolean)
-                : []
-
               return (
                 <li
                   key={item.q ?? index}
@@ -273,25 +221,9 @@ export default function FAQ() {
                         <div className="min-h-0 overflow-hidden">
                           <div className="mx-4 border-t border-dashed border-slate-200 sm:mx-5" />
 
-                          {isChoiceQuestion ? (
-                            <div className="grid gap-2 px-4 pb-5 pt-4 sm:pl-[76px] sm:pr-6">
-                              {options.map((option, optionIndex) => (
-                                <div
-                                  key={option}
-                                  className="flex items-center gap-3 rounded-xl border border-slate-100 bg-slate-50/80 px-4 py-3 text-sm font-semibold text-slate-700 transition-colors hover:border-purple-200 hover:bg-purple-50 sm:text-[15px]"
-                                >
-                                  <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-white text-xs font-bold text-[#7755e8] ring-1 ring-purple-100">
-                                    {String.fromCharCode(65 + optionIndex)}
-                                  </span>
-                                  <span className="min-w-0 break-words">{option}</span>
-                                </div>
-                              ))}
-                            </div>
-                          ) : (
-                            <p className="whitespace-pre-line break-words px-4 pb-5 pt-4 text-sm font-medium leading-7 text-slate-600 sm:pl-[76px] sm:pr-6 sm:text-[15px]">
-                              {item.a}
-                            </p>
-                          )}
+                          <p className="whitespace-pre-line break-words px-4 pb-5 pt-4 text-sm font-medium leading-7 text-slate-600 sm:pl-[76px] sm:pr-6 sm:text-[15px]">
+                            {item.a}
+                          </p>
                         </div>
                       </div>
                     </div>
