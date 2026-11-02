@@ -33,7 +33,7 @@ const badges = [
     icon: Cpu,
     title: 'Systematic & Algo-Driven',
     subtitle: 'Strategies',
-    position: 'right-0 top-[48%] sm:right-0 sm:top-[36%]',
+    position: 'right-0 top-[62%] sm:right-0 sm:top-[44%] md:top-[36%]',
     color: 'blue',
   },
   {
@@ -46,7 +46,7 @@ const badges = [
 ]
 
 const BADGE_BASE =
-  'absolute flex max-w-[64%] items-center gap-2 rounded-xl border bg-white/95 p-2 shadow-[0_12px_30px_rgba(15,23,42,.18)] backdrop-blur-md sm:max-w-[290px] sm:gap-3 sm:rounded-2xl sm:p-3'
+  'absolute flex max-w-[60%] items-center gap-2 rounded-xl border bg-white/95 p-2 shadow-[0_12px_30px_rgba(15,23,42,.18)] backdrop-blur-md sm:max-w-[290px] sm:gap-3 sm:rounded-2xl sm:p-3'
 
 const ICON_BASE =
   'grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-gradient-to-br text-white shadow-md sm:h-11 sm:w-11 sm:rounded-xl'

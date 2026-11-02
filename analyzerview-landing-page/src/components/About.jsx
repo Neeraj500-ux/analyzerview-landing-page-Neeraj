@@ -4,7 +4,6 @@ import {
   ShieldCheck, GraduationCap, Sparkles, TrendingUp,
   Briefcase, Target, Eye,
 } from 'lucide-react'
-import Logo from './Logo'
 
 /* ------------------------------------------------------------------ */
 /*  Content                                                            */
@@ -563,14 +562,22 @@ export default function About() {
         {/* ---------- heading ---------- */}
         <div ref={headRef} className="text-center">
           <Reveal from="down" className="flex justify-center">
-            <div className="av-bob rounded-2xl border border-blue-100 bg-white/80 px-5 py-3 shadow-[0_10px_40px_-12px_rgba(31,79,255,.35)] backdrop-blur">
-              <Logo />
+            <div className="av-bob flex min-h-[132px] min-w-[176px] items-center justify-center rounded-2xl border border-blue-100 bg-white px-5 py-4 shadow-[0_14px_42px_-12px_rgba(31,79,255,.32)] backdrop-blur sm:min-h-[150px] sm:min-w-[210px] sm:px-7 sm:py-5">
+              <img
+                src="/images/Neeraj3.png"
+                alt="Analyzerview Market Research logo"
+                className="block h-24 w-36 max-w-full object-contain sm:h-28 sm:w-44"
+                width="176"
+                height="112"
+                loading="eager"
+                decoding="async"
+              />
             </div>
           </Reveal>
 
-          <h2 className="mt-8 text-[clamp(32px,5.4vw,60px)] font-extrabold leading-[1.08] tracking-[-.04em] text-navy-900">
+          <h2 className="mx-auto mt-8 flex max-w-full flex-wrap items-baseline justify-center gap-x-[.28em] text-center text-[clamp(30px,5.4vw,60px)] font-extrabold leading-[1.08] tracking-[-.04em] text-navy-900">
             {headline.map(({ w, brand }, i) => (
-              <span key={w} className="mr-[.28em] inline-block overflow-hidden pb-[.12em] align-bottom">
+              <span key={w} className="inline-block max-w-full overflow-hidden pb-[.12em] align-bottom">
                 <span
                   style={{ transitionDelay: `${150 + i * 130}ms` }}
                   className={`inline-block transition-all duration-[900ms] ease-[cubic-bezier(.22,1,.36,1)] motion-reduce:transition-none ${
