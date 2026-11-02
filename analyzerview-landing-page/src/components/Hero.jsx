@@ -10,7 +10,7 @@ import {
   Cpu,
 } from 'lucide-react'
 
-const PHOTO = '/images/Neeraj1.png'
+const PHOTO = '/images/Neeraj2.png'
 
 const tickerItems = [
   'Research-Backed Market Insights',
