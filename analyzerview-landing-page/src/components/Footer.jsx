@@ -24,7 +24,7 @@ export default function Footer() {
               className="inline-block rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
             >
               <img
-                src="/images/Neeraj3.png"
+                src="/images/Neeraj5.png"
                 alt="AnalyzerView Market Research"
                 className="block h-auto w-[240px] max-w-full object-contain object-left sm:w-[270px]"
               />
