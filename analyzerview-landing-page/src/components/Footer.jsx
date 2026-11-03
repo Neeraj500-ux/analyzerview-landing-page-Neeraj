@@ -2,24 +2,58 @@ import { REG_NO } from '../data/content'
 
 const BSE_ENLISTMENT_NO = '7041' // or export this from ../data/content next to REG_NO
 
-const links = [
-  ['Terms & Conditions', '#terms'],
-  ['MITC', '#mitc'],
-  ['Risk Disclosure', '#risk'],
-  ['Privacy Policy', '#privacy'],
-  ['Investor Charter', '#investor-charter'],
-  ['Grievance Redressal', '#grievance'],
+const SITE = 'https://www.analyzerview.com'
+const CONTACT_URL = `${SITE}/contact`
+
+const quickLinks = [
+  ['Home', `${SITE}/`],
+  ['About Us', `${SITE}/about`],
+  ['Services', `${SITE}/#services`],
+  ['Contact Us', CONTACT_URL],
 ]
+
+// NOTE: change these paths if your policy pages use different URLs
+const policyLinks = [
+  ['Terms & Conditions', `${SITE}/terms`],
+  ['MITC', `${SITE}/mitc`],
+  ['Risk Disclosure', `${SITE}/risk-disclosure`],
+  ['Privacy Policy', `${SITE}/privacy-policy`],
+  ['Investor Charter', `${SITE}/investor-charter`],
+  ['Grievance Redressal', `${SITE}/grievance-redressal`],
+]
+
+const investorLinks = [
+  ['SEBI SCORES', 'https://scores.sebi.gov.in'],
+  ['Smart ODR', 'https://smartodr.in'],
+  ['SEBI Website', 'https://www.sebi.gov.in'],
+]
+
+const linkClass =
+  'transition-colors duration-200 hover:text-white focus-visible:text-white focus-visible:outline-none'
+
+const inlineLinkClass =
+  'underline underline-offset-2 transition-colors duration-200 hover:text-white focus-visible:text-white focus-visible:outline-none'
+
+function FooterColumn({ heading, children }) {
+  return (
+    <div>
+      <h3 className="mb-4 text-sm font-bold uppercase tracking-wider text-white">
+        {heading}
+      </h3>
+      <ul className="space-y-3 text-sm font-semibold">{children}</ul>
+    </div>
+  )
+}
 
 export default function Footer() {
   return (
     <footer className="bg-[#070e24] px-4 pb-8 pt-12 text-[#b4c4ea] sm:px-6">
       <div className="mx-auto max-w-[1100px]">
-        <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
+        <div className="grid gap-10 md:grid-cols-[minmax(0,1.3fr)_repeat(3,minmax(0,1fr))]">
           {/* Logo and registration details */}
           <div className="w-full md:max-w-[380px]">
             <a
-              href="/"
+              href={`${SITE}/`}
               aria-label="AnalyzerView home"
               className="inline-block rounded-xl bg-white px-4 py-3 shadow-lg shadow-black/30 ring-1 ring-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
             >
@@ -35,22 +69,58 @@ export default function Footer() {
               <br />
               BSE Enlistment No. {BSE_ENLISTMENT_NO}
             </p>
+
+            <a
+              href={CONTACT_URL}
+              className={`mt-4 inline-flex items-center gap-2 text-sm font-bold text-white ${linkClass}`}
+            >
+              Contact Us
+              <span aria-hidden="true">→</span>
+            </a>
           </div>
 
-          {/* Footer navigation */}
-          <nav
-            aria-label="Policies"
-            className="grid grid-cols-2 gap-x-6 gap-y-3 text-sm font-semibold sm:grid-cols-3 sm:gap-x-10"
-          >
-            {links.map(([title, href]) => (
-              <a
-                key={title}
-                href={href}
-                className="transition-colors duration-200 hover:text-white focus-visible:text-white"
-              >
-                {title}
-              </a>
-            ))}
+          {/* Quick links */}
+          <nav aria-label="Quick links">
+            <FooterColumn heading="Quick Links">
+              {quickLinks.map(([title, href]) => (
+                <li key={title}>
+                  <a href={href} className={linkClass}>
+                    {title}
+                  </a>
+                </li>
+              ))}
+            </FooterColumn>
+          </nav>
+
+          {/* Policies */}
+          <nav aria-label="Policies">
+            <FooterColumn heading="Policies">
+              {policyLinks.map(([title, href]) => (
+                <li key={title}>
+                  <a href={href} className={linkClass}>
+                    {title}
+                  </a>
+                </li>
+              ))}
+            </FooterColumn>
+          </nav>
+
+          {/* Investor resources (external) */}
+          <nav aria-label="Investor resources">
+            <FooterColumn heading="Investor Resources">
+              {investorLinks.map(([title, href]) => (
+                <li key={title}>
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={linkClass}
+                  >
+                    {title}
+                  </a>
+                </li>
+              ))}
+            </FooterColumn>
           </nav>
         </div>
 
@@ -61,12 +131,23 @@ export default function Footer() {
             No strategy or research framework guarantees returns or eliminates
             losses. Registration granted by SEBI and certification from NISM
             in no way guarantee performance of the intermediary or provide
-            any assurance of returns to investors.
+            any assurance of returns to investors. Read our{' '}
+            <a href={`${SITE}/risk-disclosure`} className={inlineLinkClass}>
+              Risk Disclosure
+            </a>
+            {' '}or{' '}
+            <a href={CONTACT_URL} className={inlineLinkClass}>
+              contact us
+            </a>{' '}
+            for any questions.
           </p>
 
           <p className="mt-3">
-            &copy; {new Date().getFullYear()} AnalyzerView Market Research.
-            All rights reserved.
+            &copy; {new Date().getFullYear()}{' '}
+            <a href={`${SITE}/`} className={inlineLinkClass}>
+              AnalyzerView Market Research
+            </a>
+            . All rights reserved.
           </p>
         </div>
       </div>

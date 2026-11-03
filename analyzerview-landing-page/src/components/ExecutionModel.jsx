@@ -57,8 +57,8 @@ const accents = [
 */
 const getGeo = () => {
   const w = typeof window === 'undefined' ? 1200 : window.innerWidth
-  if (w < 400) return { top: 68, step: 12 }
-  if (w < 640) return { top: 72, step: 14 }
+  if (w < 400) return { top: 68, step: 10 }
+  if (w < 640) return { top: 72, step: 12 }
   if (w < 1024) return { top: 92, step: 20 }
   return { top: 104, step: 26 }
 }
@@ -129,6 +129,17 @@ export default function ExecutionModel() {
         if (!wrap || !card) return
 
         const stick = baseTop + i * step
+        const h = card.offsetHeight
+
+        /*
+          SAFETY: if a card is taller than the visible screen (small phones,
+          landscape, browser bars), sticking it would cut its bottom content.
+          In that case let it scroll normally so NOTHING is ever hidden.
+        */
+        const free = stick + h + 12 > vh
+        const wasFree = wrap.dataset.free === 'true'
+        if (free !== wasFree) wrap.dataset.free = free ? 'true' : 'false'
+
         const top = wrap.getBoundingClientRect().top
 
         if (top <= stick + 60) active = i
@@ -137,9 +148,8 @@ export default function ExecutionModel() {
         // depth: how much the NEXT card has slid over this one (0 -> 1)
         let p = 0
         const next = wrapRefs.current[i + 1]
-        if (next && !reducedMotion) {
+        if (next && !reducedMotion && !free) {
           const nextTop = next.getBoundingClientRect().top
-          const h = card.offsetHeight
           p = clamp((stick + h - nextTop) / Math.max(1, h - step), 0, 1)
         }
         card.style.setProperty('--p', p.toFixed(2))
@@ -197,8 +207,11 @@ export default function ExecutionModel() {
           --ex-indigo: #526df0;
           --ex-purple: #8057e9;
           -webkit-text-size-adjust: 100%;
+          text-size-adjust: 100%;
         }
         .execution-premium * { box-sizing: border-box; }
+        .execution-premium a,
+        .execution-premium button { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
 
         /* ---------- background ---------- */
         .execution-premium .ex-grid {
@@ -279,8 +292,8 @@ export default function ExecutionModel() {
         /* ---------- buttons ---------- */
         .execution-premium .ex-button {
           position: relative; isolation: isolate; overflow: hidden;
+          min-height: 52px;                      /* comfortable thumb target */
           transition: transform .25s ease, box-shadow .25s ease;
-          -webkit-tap-highlight-color: transparent;
         }
         .execution-premium .ex-button::after {
           position: absolute; z-index: -1; inset: 0; content: "";
@@ -288,6 +301,8 @@ export default function ExecutionModel() {
           transform: translateX(-130%); transition: transform .7s ease;
         }
         .execution-premium .ex-button:active { transform: scale(.98); }
+        .execution-premium .ex-button:focus-visible,
+        .execution-premium .ex-nav-btn:focus-visible { outline: 2px solid #3266e5; outline-offset: 3px; }
         .execution-premium .ex-signal { animation: ex-signal 2.8s ease-in-out infinite; }
 
         /* ---------- principles ---------- */
@@ -322,13 +337,21 @@ export default function ExecutionModel() {
         }
         .execution-premium .ex-wrap:last-child { padding-bottom: 0; }
 
+        /* a card taller than the screen scrolls normally, so no content is ever cut */
+        .execution-premium .ex-wrap[data-free="true"] {
+          position: relative;
+          top: auto !important;
+          padding-bottom: 16px;
+        }
+        .execution-premium .ex-wrap[data-free="true"]:last-child { padding-bottom: 0; }
+
         .execution-premium .ex-layer-card {
           --p: 0;
           --mouse-x: 50%;
           --mouse-y: 50%;
           position: relative; isolation: isolate; overflow: hidden;
           transform-origin: top center;
-          /* NOTE: no CSS filter() here any more - it is very slow on phones and
+          /* NOTE: no CSS filter() here - it is very slow on phones and
              makes sticky cards flicker on iOS. Depth is done with the .ex-dim overlay. */
           transform: scale(calc(1 - var(--p) * .06)) translateZ(0);
           border: 1px solid rgba(255,255,255,.95);
@@ -482,10 +505,13 @@ export default function ExecutionModel() {
         /* ---------- PHONES: lighter + smaller so scrolling stays smooth ---------- */
         @media (max-width: 767px) {
           .execution-premium .ex-grid { background-size: 30px 30px; }
-          .execution-premium .ex-wrap { padding-bottom: 8vh; }
+          .execution-premium .ex-wrap { padding-bottom: 6vh; }
           .execution-premium .ex-chart-head { display: none; }
           .execution-premium .ex-foot-text { display: none; }
           .execution-premium .ex-layer-card { border-radius: 20px; }
+
+          /* ghost number is decoration only: keep it small so it never crowds text */
+          .execution-premium .ex-ghost { font-size: 76px; right: 8px; top: -2px; }
 
           /* kill the heavy always-running effects */
           .execution-premium .ex-orb,
@@ -495,7 +521,8 @@ export default function ExecutionModel() {
           .execution-premium .ex-blob,
           .execution-premium .ex-scan,
           .execution-premium .ex-gradient-text,
-          .execution-premium .ex-signal { animation: none !important; }
+          .execution-premium .ex-signal,
+          .execution-premium .ex-layer-card::before { animation: none !important; }
           .execution-premium .ex-gradient-text { background-position: 40% center; }
           .execution-premium .ex-blob { filter: blur(26px); opacity: .18; }
           .execution-premium .ex-scan { display: none; }
@@ -512,6 +539,35 @@ export default function ExecutionModel() {
           }
           /* show every bullet fully on touch screens */
           .execution-premium .ex-point { opacity: 1; transform: none; }
+          /* no pulsing rings / lifted panels on phones */
+          .execution-premium .ex-layer-card[data-active="true"] .ex-icon-tile { transform: none; }
+          .execution-premium .ex-layer-card[data-active="true"] .ex-icon-tile::after { animation: none; }
+          .execution-premium .ex-layer-card[data-active="true"] .ex-chart-panel { transform: none; box-shadow: none; }
+          /* long words / numbers must never push the page sideways */
+          .execution-premium h2,
+          .execution-premium h3,
+          .execution-premium h4,
+          .execution-premium p,
+          .execution-premium li { overflow-wrap: anywhere; }
+        }
+
+        /* very small phones (iPhone SE, 320-360px) */
+        @media (max-width: 380px) {
+          .execution-premium .ex-ghost { display: none; }
+          .execution-premium .ex-eyebrow { font-size: 9px; letter-spacing: .08em; padding: 7px 10px; }
+        }
+
+        /* landscape phones: short screens, don't pin big cards */
+        @media (max-height: 520px) and (orientation: landscape) {
+          .execution-premium .ex-wrap { padding-bottom: 16px; }
+        }
+
+        /* notched phones: keep content inside the safe area */
+        @supports (padding: max(0px)) {
+          .execution-premium {
+            padding-left: env(safe-area-inset-left);
+            padding-right: env(safe-area-inset-right);
+          }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -542,7 +598,7 @@ export default function ExecutionModel() {
       </div>
 
       {/* ============================ Hero ============================ */}
-      <div className="mx-auto grid max-w-[1240px] items-center gap-9 px-4 pb-14 pt-14 sm:gap-10 sm:px-8 sm:pb-20 sm:pt-24 lg:grid-cols-2 lg:gap-14 lg:px-10 lg:pt-28">
+      <div className="mx-auto grid max-w-[1240px] items-center gap-8 px-4 pb-12 pt-12 sm:gap-10 sm:px-8 sm:pb-20 sm:pt-24 lg:grid-cols-2 lg:gap-14 lg:px-10 lg:pt-28">
         <div className="relative z-10 min-w-0">
           <div className={`ex-eyebrow ${enter()}`}>
             <span className="ex-live-dot" />
@@ -550,19 +606,19 @@ export default function ExecutionModel() {
             <Sparkles size={14} className="shrink-0 text-blue-500" />
           </div>
 
-          <h2 className={`mt-6 max-w-[650px] text-[clamp(34px,9.5vw,68px)] font-extrabold leading-[1.06] tracking-[-.05em] text-[#101d42] sm:mt-7 ${enter('ex-delay-1')}`}>
+          <h2 className={`mt-5 max-w-[650px] text-[clamp(32px,9.5vw,68px)] font-extrabold leading-[1.08] tracking-[-.045em] text-[#101d42] sm:mt-7 ${enter('ex-delay-1')}`}>
             A Smarter Way to
             <span className="mt-1 block">Navigate the</span>
             <span className="ex-gradient-text mt-1 block pb-1">Markets.</span>
           </h2>
 
-          <p className={`mt-5 max-w-[540px] text-[15px] font-medium leading-7 text-slate-600 sm:mt-6 sm:text-lg sm:leading-8 ${enter('ex-delay-2')}`}>
+          <p className={`mt-4 max-w-[540px] text-[15px] font-medium leading-[1.7] text-slate-600 sm:mt-6 sm:text-lg sm:leading-8 ${enter('ex-delay-2')}`}>
             Introducing our four-layer execution model — a structured framework
             designed to evaluate market conditions, confirm opportunities and
             bring greater discipline to every trading decision.
           </p>
 
-          <div className={`mt-6 flex flex-wrap gap-2 sm:mt-7 sm:gap-2.5 ${enter('ex-delay-2')}`}>
+          <div className={`mt-5 flex flex-wrap gap-2 sm:mt-7 sm:gap-2.5 ${enter('ex-delay-2')}`}>
             {features.map((feature) => (
               <span
                 key={feature}
@@ -574,7 +630,7 @@ export default function ExecutionModel() {
             ))}
           </div>
 
-          <div className={`mt-7 flex flex-col items-stretch gap-4 sm:mt-8 sm:flex-row sm:flex-wrap sm:items-center ${enter('ex-delay-3')}`}>
+          <div className={`mt-6 flex flex-col items-stretch gap-4 sm:mt-8 sm:flex-row sm:flex-wrap sm:items-center ${enter('ex-delay-3')}`}>
             <a
               href="#execution-steps"
               className="ex-button group inline-flex w-full items-center justify-center gap-3 rounded-xl bg-gradient-to-r from-[#2048b9] via-[#3266e5] to-[#7256e8] px-5 py-4 text-[15px] font-extrabold text-white shadow-[0_12px_30px_rgba(50,91,210,.24)] sm:w-auto sm:px-6 sm:py-3.5 sm:text-base"
@@ -596,7 +652,7 @@ export default function ExecutionModel() {
         <div className="relative mx-auto w-full min-w-0 max-w-[550px]">
           <div className="ex-orb pointer-events-none absolute inset-5 hidden rounded-[40px] bg-gradient-to-br from-blue-300/45 via-indigo-200/25 to-violet-300/30 blur-3xl sm:block" />
 
-          <div className="ex-glass relative rounded-[22px] p-4 sm:rounded-[32px] sm:p-6 md:p-7">
+          <div className="ex-glass relative rounded-[22px] p-3.5 sm:rounded-[32px] sm:p-6 md:p-7">
             <div className="ex-shine" />
 
             <div className="relative flex items-start justify-between gap-3 border-b border-blue-100/80 pb-4 sm:pb-5">
@@ -704,7 +760,7 @@ export default function ExecutionModel() {
       {/* pb-28 on phones: keeps the last card clear of the fixed bottom CTA bar */}
       <div
         id="execution-steps"
-        className="mx-auto max-w-[1240px] px-3 pb-28 pt-14 sm:px-8 sm:pb-20 sm:pt-20 lg:px-10"
+        className="mx-auto max-w-[1240px] scroll-mt-20 px-3 pb-28 pt-12 sm:px-8 sm:pb-20 sm:pt-20 lg:px-10"
       >
         <div className="mx-auto max-w-[760px] px-1 text-center">
           <div className="ex-eyebrow">
@@ -712,7 +768,7 @@ export default function ExecutionModel() {
             THE METHODOLOGY
           </div>
 
-          <h3 className="mt-5 text-[clamp(28px,7.5vw,49px)] font-extrabold leading-[1.1] tracking-[-.04em] text-[#101d42]">
+          <h3 className="mt-5 text-[clamp(27px,7.5vw,49px)] font-extrabold leading-[1.12] tracking-[-.04em] text-[#101d42]">
             From Market Analysis
             <span className="ex-gradient-text block pb-1">to Structured Execution</span>
           </h3>
@@ -724,7 +780,7 @@ export default function ExecutionModel() {
           </p>
         </div>
 
-        <div ref={stepsRef} className="relative mt-8 sm:mt-16">
+        <div ref={stepsRef} className="relative mt-7 sm:mt-16">
           {/* sticky layer navigator (desktop) */}
           <div className="pointer-events-none absolute inset-y-0 left-0 hidden w-[44px] lg:block">
             <div className="pointer-events-auto sticky top-[140px] flex flex-col items-center gap-3">
@@ -746,7 +802,7 @@ export default function ExecutionModel() {
                     onClick={() => goToLayer(index)}
                     aria-label={`Go to layer ${index + 1}: ${layer.title}`}
                     aria-current={active ? 'step' : undefined}
-                    className="grid h-9 w-9 place-items-center rounded-xl border-2 text-[11px] font-black transition-all duration-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
+                    className="ex-nav-btn grid h-9 w-9 place-items-center rounded-xl border-2 text-[11px] font-black transition-all duration-500"
                     style={
                       active
                         ? {
@@ -794,11 +850,11 @@ export default function ExecutionModel() {
                     <span className="ex-dim" aria-hidden="true" />
                     <span className="ex-ghost" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
 
-                    <div className="ex-body relative grid gap-4 sm:gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.02fr)] lg:items-center lg:gap-10">
+                    <div className="ex-body relative grid gap-3.5 sm:gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.02fr)] lg:items-center lg:gap-10">
                       <div className="min-w-0">
                         <div className="flex items-start gap-3 sm:gap-4">
-                          <div className="ex-icon-tile grid h-12 w-12 shrink-0 place-items-center rounded-xl sm:h-16 sm:w-16 sm:rounded-2xl">
-                            <Icon size={24} strokeWidth={1.8} />
+                          <div className="ex-icon-tile grid h-11 w-11 shrink-0 place-items-center rounded-xl sm:h-16 sm:w-16 sm:rounded-2xl">
+                            <Icon size={22} strokeWidth={1.8} />
                           </div>
 
                           <div className="min-w-0 flex-1">
@@ -821,7 +877,7 @@ export default function ExecutionModel() {
                           </div>
                         </div>
 
-                        <ul className="mt-4 space-y-2 sm:mt-6 sm:space-y-3">
+                        <ul className="mt-3.5 space-y-2 sm:mt-6 sm:space-y-3">
                           {layer.points.map((point) => (
                             <li
                               key={point}
@@ -835,7 +891,7 @@ export default function ExecutionModel() {
                           ))}
                         </ul>
 
-                        <div className="mt-4 flex items-center justify-between gap-3 border-t border-blue-100/70 pt-3 sm:mt-5 sm:pt-4">
+                        <div className="mt-3.5 flex items-center justify-between gap-3 border-t border-blue-100/70 pt-3 sm:mt-5 sm:pt-4">
                           <div className="flex items-center gap-1.5" aria-label={`Layer ${index + 1} of ${layers.length}`}>
                             {layers.map((_, dot) => (
                               <span key={dot} className={`ex-dot ${dot === index ? 'on' : ''}`} />
@@ -868,8 +924,8 @@ export default function ExecutionModel() {
                           </span>
                         </div>
 
-                        {/* CHART FIX: phones use a 16:9 box (grows with width, never crops); sm+ keeps 200px */}
-                        <div className="ex-chart-box relative aspect-[16/9] w-full sm:aspect-auto sm:h-[200px]">
+                        {/* CHART FIX: phones use a 2:1 box (shorter card, never crops); sm+ keeps 200px */}
+                        <div className="ex-chart-box relative aspect-[2/1] w-full min-[420px]:aspect-[16/9] sm:aspect-auto sm:h-[200px]">
                           <ChartArt kind={layer.chart} />
                         </div>
                       </div>
@@ -893,14 +949,14 @@ export default function ExecutionModel() {
           <div className="ex-shine" />
           <div className="pointer-events-none absolute -right-16 -top-20 hidden h-64 w-64 rounded-full bg-blue-200/35 blur-[80px] sm:block" />
 
-          <div className="relative grid gap-8 p-5 sm:p-8 md:p-10 lg:grid-cols-2 lg:items-center lg:gap-12 lg:p-12">
+          <div className="relative grid gap-7 p-5 sm:gap-8 sm:p-8 md:p-10 lg:grid-cols-2 lg:items-center lg:gap-12 lg:p-12">
             <div className="min-w-0">
               <div className="ex-eyebrow">
                 <Sparkles size={14} className="shrink-0" />
                 OUR PHILOSOPHY
               </div>
 
-              <h3 className="mt-5 text-[clamp(28px,7.5vw,46px)] font-extrabold leading-[1.1] tracking-[-.04em] text-[#101d42]">
+              <h3 className="mt-5 text-[clamp(27px,7.5vw,46px)] font-extrabold leading-[1.12] tracking-[-.04em] text-[#101d42]">
                 Discipline Over
                 <span className="ex-gradient-text block pb-1">Impulse.</span>
                 <span className="block">Process Over Guesswork.</span>
@@ -928,7 +984,7 @@ export default function ExecutionModel() {
                 return (
                   <div
                     key={principle.title}
-                    className="ex-principle group flex items-center gap-3 rounded-2xl border border-blue-100/90 bg-white/90 p-4 shadow-sm lg:gap-4 lg:p-5"
+                    className="ex-principle group flex items-center gap-3 rounded-2xl border border-blue-100/90 bg-white/90 p-3.5 shadow-sm sm:p-4 lg:gap-4 lg:p-5"
                   >
                     <div className="ex-principle-icon grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-blue-50 to-indigo-100 text-blue-700 sm:h-12 sm:w-12">
                       <Icon size={22} strokeWidth={1.8} />
