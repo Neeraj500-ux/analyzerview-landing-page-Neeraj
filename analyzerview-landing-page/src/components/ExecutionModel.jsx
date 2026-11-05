@@ -8,7 +8,6 @@ import {
   Activity,
   Zap,
   Layers3,
-  ChevronRight,
   Sparkles,
   CircleDot,
   Gauge,
@@ -706,31 +705,6 @@ export default function ExecutionModel() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-1 sm:gap-3">
-                {chips.map((chip, index) => {
-                  const Icon = chip.icon
-                  return (
-                    <div
-                      key={chip.title}
-                      className="ex-chip group min-w-0 rounded-xl border border-blue-100/90 bg-white/90 p-3 shadow-[0_4px_15px_rgba(36,77,150,.035)] sm:rounded-2xl sm:p-3.5"
-                    >
-                      <div className="flex flex-col items-start gap-2 sm:flex-row sm:gap-3">
-                        <span className="ex-chip-icon grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-gradient-to-br from-blue-50 to-indigo-100 text-blue-700 sm:h-10 sm:w-10 sm:rounded-xl">
-                          <Icon size={18} strokeWidth={1.9} />
-                        </span>
-                        <div className="min-w-0">
-                          <p className="text-xs font-extrabold leading-snug text-[#14244a] sm:text-xs md:text-sm">{chip.title}</p>
-                          <p className="mt-1 text-[11px] font-medium leading-relaxed text-slate-500">{chip.desc}</p>
-                        </div>
-                      </div>
-                      <div className="mt-2 flex items-center justify-between">
-                        <span className="text-[9px] font-bold uppercase tracking-widest text-blue-400">STEP 0{index + 1}</span>
-                        <ChevronRight size={13} className="text-blue-300 transition group-hover:translate-x-1 group-hover:text-blue-600" />
-                      </div>
-                    </div>
-                  )
-                })}
-              </div>
             </div>
 
             <div className="relative mt-4 flex items-center gap-3 overflow-hidden rounded-xl border border-blue-100/80 bg-gradient-to-r from-blue-50 to-indigo-50/70 p-3 sm:mt-5 sm:p-4">
